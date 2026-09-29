@@ -59,7 +59,7 @@ if ($query) {
                             <strong><?= htmlspecialchars($res['real_name'] ?: $res['username'] ?: 'Unknown User') ?></strong> in #<?= htmlspecialchars($res['channel_name']) ?>
                             <span class="timestamp"><?= gmdate("Y-m-d H:i:s", (int)$res['ts']) ?></span>
                         </div>
-                        <div class="text"><?= nl2br(htmlspecialchars($res['text'])) ?></div>
+                        <div class="text"><?= formatSlackText($res['text']) ?></div>
                         <a href="channel.php?id=<?= urlencode($res['channel_id']) ?>&ts=<?= urlencode($res['ts']) ?>#msg-<?= htmlspecialchars($res['ts']) ?>" class="btn-small">Jump to Context</a>
                     </div>
                 </div>

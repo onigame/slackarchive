@@ -60,7 +60,7 @@ $messages = $stmt->fetchAll();
                         <strong><?= htmlspecialchars($msg['real_name'] ?: $msg['username'] ?: 'Unknown User') ?></strong>
                         <span class="timestamp"><?= gmdate("Y-m-d H:i:s", (int)$msg['ts']) ?></span>
                     </div>
-                    <div class="text"><?= nl2br(htmlspecialchars($msg['text'])) ?></div>
+                    <div class="text"><?= formatSlackText($msg['text']) ?></div>
                     
                     <?php
                     $stmtReplies = $pdo->prepare("SELECT m.*, u.username, u.avatar_url, u.real_name FROM messages m LEFT JOIN users u ON m.user_id = u.id WHERE m.channel_id = ? AND m.thread_ts = ? AND m.ts != ? ORDER BY m.ts ASC");
@@ -77,7 +77,7 @@ $messages = $stmt->fetchAll();
                                             <strong><?= htmlspecialchars($reply['real_name'] ?: $reply['username'] ?: 'Unknown User') ?></strong>
                                             <span class="timestamp"><?= gmdate("Y-m-d H:i:s", (int)$reply['ts']) ?></span>
                                         </div>
-                                        <div class="text"><?= nl2br(htmlspecialchars($reply['text'])) ?></div>
+                                        <div class="text"><?= formatSlackText($reply['text']) ?></div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
