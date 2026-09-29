@@ -10,12 +10,17 @@ $channelFilter = $_GET['channel'] ?? '';
 $userFilter = $_GET['user'] ?? '';
 $results = [];
 
-if ($query) {
+if ($query || $channelFilter || $userFilter) {
     $sql = "SELECT m.*, c.name as channel_name, u.username, u.real_name FROM messages m 
             LEFT JOIN channels c ON m.channel_id = c.id 
             LEFT JOIN users u ON m.user_id = u.id 
-            WHERE m.text LIKE ?";
-    $params = ["%$query%"];
+            WHERE 1=1";
+    $params = [];
+    
+    if ($query) {
+        $sql .= " AND m.text LIKE ?";
+        $params[] = "%$query%";
+    }
     if ($channelFilter) {
         $sql .= " AND m.channel_id = ?";
         $params[] = $channelFilter;
@@ -33,7 +38,7 @@ if ($query) {
 <div class="glass-panel">
     <h1>Search</h1>
     <form method="GET" action="search.php" class="search-form">
-        <input type="text" name="q" value="<?= htmlspecialchars($query) ?>" placeholder="Search messages..." required>
+        <input type="text" name="q" value="<?= htmlspecialchars($query) ?>" placeholder="Search messages...">
         <select name="channel">
             <option value="">All Channels</option>
             <?php foreach ($channels as $c): ?>
@@ -49,7 +54,7 @@ if ($query) {
         <button type="submit" class="btn">Search</button>
     </form>
 
-    <?php if ($query): ?>
+    <?php if ($query || $channelFilter || $userFilter): ?>
         <h2>Results</h2>
         <div class="messages">
             <?php foreach ($results as $res): ?>
