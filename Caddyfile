@@ -1,0 +1,5 @@
+:80 {
+    root * /var/www/slackarchive
+    php_fastcgi unix//run/php/php8.3-fpm.sock
+    file_server
+}

@@ -1,0 +1,7 @@
+config.php
+ingest.php
+*.zip
+slack_export_*
+.idea/
+.vscode/
+*.log
